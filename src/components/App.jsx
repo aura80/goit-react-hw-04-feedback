@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { FeedbackContext } from './FeedbackContext';
 import FeedbackOptions from './FeedbackOptions';
 import Statistics from './Statistics';
 import Section from './Section';
@@ -47,27 +48,32 @@ export const App = () => {
   console.log('Render: ', { good, neutral, bad });
 
   return (
-    <div>
-      <Section title="Please leave feedback">
-        <FeedbackOptions
-          options={options}
-          onLeaveFeedback={handleLeaveFeedback}
-        />
-      </Section>
+    <FeedbackContext.Provider
+      value={{ options, onLeaveFeedback: handleLeaveFeedback }}
+    >
+      <div>
+        <Section title="Please leave feedback">
+          {/* <FeedbackOptions
+            options={options}
+            onLeaveFeedback={handleLeaveFeedback}
+          /> */}
+          <FeedbackOptions />
+        </Section>
 
-      <Section title="Statistics">
-        {total > 0 ? (
-          <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
-            total={total}
-            positivePercentage={positivePercentage}
-          />
-        ) : (
-          <Notification message="There is no feedback" />
-        )}
-      </Section>
-    </div>
+        <Section title="Statistics">
+          {total > 0 ? (
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={total}
+              positivePercentage={positivePercentage}
+            />
+          ) : (
+            <Notification message="There is no feedback" />
+          )}
+        </Section>
+      </div>
+    </FeedbackContext.Provider>
   );
 }
