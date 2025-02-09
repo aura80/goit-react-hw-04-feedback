@@ -9,6 +9,7 @@ export const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     console.log('Component updated: ', {good, neutral, bad});
@@ -45,11 +46,23 @@ export const App = () => {
   const positivePercentage = countPositiveFeedbackPercentage();
   const options = ['good', 'neutral', 'bad'];
 
+  useEffect(() => {
+    if (total === 0) {
+      setMessage("There is no feedback");
+    } else {
+      setMessage("");
+    }
+  }, [total]);
+
   console.log('Render: ', { good, neutral, bad });
 
   return (
     <FeedbackContext.Provider
-      value={{ options, onLeaveFeedback: handleLeaveFeedback }}
+      value={{
+        options,
+        onLeaveFeedback: handleLeaveFeedback,
+        message,
+      }}
     >
       <div>
         <Section title="Please leave feedback">
@@ -70,7 +83,7 @@ export const App = () => {
               positivePercentage={positivePercentage}
             />
           ) : (
-            <Notification message="There is no feedback" />
+            <Notification />
           )}
         </Section>
       </div>

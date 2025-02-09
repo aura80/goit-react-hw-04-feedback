@@ -1,12 +1,13 @@
-import PropTypes from 'prop-types';
+import { useContext } from 'react';
+import { FeedbackContext } from './FeedbackContext';
 import styles from './Notification.module.css';
 
-const Notification = ({ message }) => (
-    <p className={styles.notification}>{message}</p>
-);
+const Notification = () => {
+    const { message } = useContext(FeedbackContext);
 
-Notification.propTypes = {
-    message: PropTypes.string.isRequired
+    return (
+        <p className={styles.notification}>{message}</p>
+    );
 };
 
 export default Notification;
